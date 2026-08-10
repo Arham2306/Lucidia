@@ -1,0 +1,86 @@
+# Copyright (C) 2026 Custom Theme Developer
+# This file is distributed under the GNU General Public License v2 or later.
+msgid ""
+msgstr ""
+"Project-Id-Version: Custom Editorial 1.0.0\n"
+"Report-Msgid-Bugs-To: https://example.com/\n"
+"POT-Creation-Date: 2026-08-09T09:30:00+00:00\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"PO-Revision-Date: 2026-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: WordPress\n"
+"X-Domain: custom-theme\n"
+
+msgid "Primary Navigation"
+msgstr ""
+
+msgid "Footer Navigation"
+msgstr ""
+
+msgid "Search Articles"
+msgstr ""
+
+msgid "Discover stories, analysis & ideas"
+msgstr ""
+
+msgid "Type to search articles instantly&hellip;"
+msgstr ""
+
+msgid "Recent Searches"
+msgstr ""
+
+msgid "Popular Topics:"
+msgstr ""
+
+msgid "Latest Stories"
+msgstr ""
+
+msgid "Editor&rsquo;s Picks & Deep Dives"
+msgstr ""
+
+msgid "View all articles"
+msgstr ""
+
+msgid "Get thoughtful stories delivered directly to your inbox."
+msgstr ""
+
+msgid "Dark Mode"
+msgstr ""
+
+msgid "Enable Dark Mode"
+msgstr ""
+
+msgid "Default Color Scheme"
+msgstr ""
+
+msgid "Link copied!"
+msgstr ""
+
+msgid "Unable to copy"
+msgstr ""
+
+msgid "Open navigation menu"
+msgstr ""
+
+msgid "Close navigation menu"
+msgstr ""
+
+msgid "Searching articles..."
+msgstr ""
+
+msgid "No articles found matching"
+msgstr ""
+
+msgid "View all results for"
+msgstr ""
+
+msgid "Page Builder (Full Width)"
+msgstr ""
+
+msgid "Page Builder (Blank Canvas)"
+msgstr ""

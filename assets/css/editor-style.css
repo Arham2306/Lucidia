@@ -1,0 +1,123 @@
+:root {
+    --color-accent: #184a7e;
+    --color-text: #14171a;
+    --color-text-secondary: #536471;
+    --color-bg: #fcfbf9;
+    --color-surface: #ffffff;
+    --color-border: #e1ddd8;
+    --font-heading: 'Source Serif 4', Georgia, 'Times New Roman', serif;
+    --font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+/**
+ * Custom Editorial - Block Editor (Gutenberg) Stylesheet
+ * Aligns Gutenberg editor styling with the frontend theme.
+ *
+ * @package Custom_Theme
+ */
+
+body.editor-styles-wrapper {
+    font-family: var(--font-body);
+    font-size: 1.0625rem;
+    line-height: 1.78;
+    color: var(--color-text);
+    background-color: var(--color-bg);
+}
+
+.editor-styles-wrapper .wp-block-post-title,
+.editor-styles-wrapper h1,
+.editor-styles-wrapper h2,
+.editor-styles-wrapper h3,
+.editor-styles-wrapper h4,
+.editor-styles-wrapper h5,
+.editor-styles-wrapper h6 {
+    font-family: var(--font-body);
+    color: var(--color-text);
+    font-weight: 700;
+    line-height: 1.25;
+}
+
+.editor-styles-wrapper .wp-block-post-title,
+.editor-styles-wrapper h1 {
+    font-size: 2.5rem;
+    font-weight: 800;
+    letter-spacing: -0.035em;
+}
+
+.editor-styles-wrapper h2 {
+    font-size: 1.85rem;
+    font-weight: 800;
+    letter-spacing: -0.025em;
+    margin-top: 2.5rem;
+}
+
+.editor-styles-wrapper h3 {
+    font-size: 1.45rem;
+    letter-spacing: -0.02em;
+}
+
+.editor-styles-wrapper a {
+    color: var(--color-accent);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}
+
+.editor-styles-wrapper blockquote {
+    border-left: 3px solid var(--color-accent);
+    padding: 1.125rem 1.75rem;
+    margin: 2rem 0;
+    font-family: var(--font-heading);
+    font-size: 1.125rem;
+    font-style: italic;
+    color: var(--color-text);
+    background-color: var(--color-bg);
+    border-radius: 0 8px 8px 0;
+}
+
+.editor-styles-wrapper .wp-block-pullquote {
+    border-top: 2px solid var(--color-border);
+    border-bottom: 2px solid var(--color-border);
+    padding: 2rem 1rem;
+    text-align: center;
+    font-family: var(--font-heading);
+}
+
+.editor-styles-wrapper .wp-block-button__link {
+    background-color: var(--color-accent);
+    color: var(--color-surface);
+    border-radius: 8px;
+    font-weight: 600;
+    padding: 0.75rem 1.5rem;
+    transition: all 0.2s ease;
+}
+
+.editor-styles-wrapper .wp-block-button.is-style-outline .wp-block-button__link {
+    background-color: transparent;
+    border: 2px solid var(--color-accent);
+    color: var(--color-accent);
+}
+
+.editor-styles-wrapper pre.wp-block-code {
+    background-color: var(--color-text);
+    color: var(--color-surface);
+    padding: 1.25rem 1.5rem;
+    border-radius: 8px;
+    font-family: 'JetBrains Mono', 'Fira Code', Consolas, monospace;
+}
+
+.editor-styles-wrapper table.wp-block-table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.editor-styles-wrapper table.wp-block-table th,
+.editor-styles-wrapper table.wp-block-table td {
+    padding: 0.85rem 1rem;
+    border-bottom: 1px solid var(--color-border);
+}
+
+.editor-styles-wrapper .wp-block-separator {
+    border: none;
+    border-top: 1px solid var(--color-border);
+    margin: 3rem 0;
+}
