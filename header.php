@@ -128,7 +128,19 @@ $header_classes = implode( ' ', array_filter( $header_classes ) );
             <!-- Site Branding / Logo -->
             <div class="site-branding <?php echo get_theme_mod( 'custom_theme_site_title_uppercase', false ) ? 'site-title-uppercase' : ''; ?>">
                 <?php
-                if ( has_custom_logo() ) :
+                $custom_logo_url = get_theme_mod( 'custom_theme_logo_url', '' );
+                if ( empty( $custom_logo_url ) && has_custom_logo() ) {
+                    $custom_logo_url = wp_get_attachment_image_url( get_theme_mod( 'custom_logo' ), 'full' );
+                }
+                $logo_max_h = get_theme_mod( 'custom_theme_logo_max_height', 48 );
+
+                if ( ! empty( $custom_logo_url ) ) :
+                    ?>
+                    <a href="<?php echo esc_url( home_url( '/' ) ); ?>" class="custom-logo-link" rel="home">
+                        <img src="<?php echo esc_url( $custom_logo_url ); ?>" class="custom-logo site-logo-img" alt="<?php echo esc_attr( get_bloginfo( 'name' ) ); ?>" style="max-height: <?php echo esc_attr( $logo_max_h ); ?>px;">
+                    </a>
+                    <?php
+                elseif ( has_custom_logo() ) :
                     the_custom_logo();
                 else :
                     if ( is_front_page() && is_home() ) :
@@ -194,14 +206,6 @@ $header_classes = implode( ' ', array_filter( $header_classes ) );
                     <button type="button" class="header-action-btn dark-mode-toggle" id="dark-mode-toggle" aria-label="<?php esc_attr_e( 'Toggle dark mode', 'custom-theme' ); ?>">
                         <svg class="icon-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
                         <svg class="icon-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
-                    </button>
-                <?php endif; ?>
-
-                <!-- Saved Stories / Reading List Trigger -->
-                <?php if ( get_theme_mod( 'custom_theme_enable_bookmarks', true ) ) : ?>
-                    <button type="button" class="header-action-btn bookmarks-toggle-btn" id="bookmarks-toggle-btn" aria-label="<?php esc_attr_e( 'Saved stories reading list', 'custom-theme' ); ?>" aria-expanded="false" aria-controls="bookmarks-drawer">
-                        <?php echo custom_theme_svg_icon( 'bookmark' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
-                        <span class="bookmarks-count-badge" id="header-bookmarks-count" style="display: none;">0</span>
                     </button>
                 <?php endif; ?>
 
@@ -369,37 +373,6 @@ $header_classes = implode( ' ', array_filter( $header_classes ) );
             </div>
         </div>
     </div><!-- #mobile-navigation-drawer -->
-
-    <!-- Reading List Slide-out Drawer -->
-    <div id="bookmarks-drawer" class="bookmarks-drawer" role="dialog" aria-modal="true" aria-label="<?php esc_attr_e( 'Saved Stories Reading List', 'custom-theme' ); ?>" hidden>
-        <div class="bookmarks-drawer-backdrop" id="bookmarks-drawer-backdrop"></div>
-        <div class="bookmarks-drawer-panel">
-            <div class="bookmarks-drawer-header">
-                <div class="bookmarks-header-title-group">
-                    <span class="bookmarks-drawer-title"><?php esc_html_e( 'Saved Stories', 'custom-theme' ); ?></span>
-                    <span class="bookmarks-total-counter" id="bookmarks-total-counter">0 stories</span>
-                </div>
-                <div class="bookmarks-header-actions">
-                    <button type="button" class="bookmarks-clear-all" id="bookmarks-clear-all" title="<?php esc_attr_e( 'Clear all saved stories', 'custom-theme' ); ?>" style="display: none;">
-                        <?php echo custom_theme_svg_icon( 'trash' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
-                        <span><?php esc_html_e( 'Clear', 'custom-theme' ); ?></span>
-                    </button>
-                    <button type="button" class="drawer-close-btn" id="bookmarks-drawer-close" aria-label="<?php esc_attr_e( 'Close reading list', 'custom-theme' ); ?>">
-                        <?php echo custom_theme_svg_icon( 'close' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
-                    </button>
-                </div>
-            </div>
-            
-            <div class="bookmarks-drawer-body" id="bookmarks-drawer-body">
-                <div class="bookmarks-empty-state" id="bookmarks-empty-state">
-                    <div class="empty-state-icon"><?php echo custom_theme_svg_icon( 'bookmark' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></div>
-                    <h4><?php esc_html_e( 'No saved stories yet', 'custom-theme' ); ?></h4>
-                    <p><?php esc_html_e( 'Click the bookmark icon on any article card or post to save stories to your personal reading list.', 'custom-theme' ); ?></p>
-                </div>
-                <div class="bookmarks-items-list" id="bookmarks-items-list"></div>
-            </div>
-        </div>
-    </div><!-- #bookmarks-drawer -->
 
     <?php if ( is_singular( 'post' ) && get_theme_mod( 'custom_theme_enable_reading_mode', true ) ) : ?>
     <!-- Distraction-Free Reading Mode Floating Control Bar -->

@@ -58,8 +58,6 @@ $toc_items     = $parsed_data['toc'];
                     </button>
                 <?php endif; ?>
 
-                <?php custom_theme_bookmark_button( get_the_ID(), 'single-bookmark-btn' ); ?>
-
                 <?php if ( get_theme_mod( 'custom_theme_single_show_social_share', true ) ) : ?>
                     <?php get_template_part( 'template-parts/social-share' ); ?>
                 <?php endif; ?>

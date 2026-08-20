@@ -40,7 +40,6 @@ if ( ! defined( 'ABSPATH' ) ) {
                 <span class="meta-divider">&bull;</span>
                 <?php custom_theme_reading_time_badge(); ?>
             </div>
-            <?php custom_theme_bookmark_button( get_the_ID(), 'card-bookmark-btn' ); ?>
         </footer>
 
     </div><!-- .card-list-content -->

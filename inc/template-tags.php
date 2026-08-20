@@ -222,42 +222,4 @@ function custom_theme_entry_tags() {
     }
 }
 
-/**
- * Renders an accessible interactive bookmark / save for later button.
- *
- * @param int|null $post_id Post ID.
- * @param string   $class   Extra CSS class.
- */
-function custom_theme_bookmark_button( $post_id = null, $class = '' ) {
-    if ( ! get_theme_mod( 'custom_theme_enable_bookmarks', true ) ) {
-        return;
-    }
-
-    if ( ! $post_id ) {
-        $post_id = get_the_ID();
-    }
-
-    $title    = html_entity_decode( get_the_title( $post_id ), ENT_QUOTES, 'UTF-8' );
-    $url      = get_permalink( $post_id );
-    $thumb    = has_post_thumbnail( $post_id ) ? get_the_post_thumbnail_url( $post_id, 'custom-theme-compact' ) : '';
-    $cats     = get_the_category( $post_id );
-    $cat_name = ! empty( $cats ) ? $cats[0]->name : '';
-    $reading  = custom_theme_reading_time( $post_id );
-
-    ?>
-    <button type="button" 
-            class="btn-bookmark <?php echo esc_attr( $class ); ?>" 
-            data-post-id="<?php echo esc_attr( $post_id ); ?>"
-            data-title="<?php echo esc_attr( $title ); ?>"
-            data-url="<?php echo esc_url( $url ); ?>"
-            data-thumb="<?php echo esc_url( $thumb ); ?>"
-            data-category="<?php echo esc_attr( $cat_name ); ?>"
-            data-reading-time="<?php echo esc_attr( $reading ); ?>"
-            aria-label="<?php esc_attr_e( 'Save story for later', 'custom-theme' ); ?>"
-            title="<?php esc_attr_e( 'Save story for later', 'custom-theme' ); ?>">
-        <span class="bookmark-icon bookmark-icon-outline"><?php echo custom_theme_svg_icon( 'bookmark' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></span>
-        <span class="bookmark-icon bookmark-icon-filled"><?php echo custom_theme_svg_icon( 'bookmark-filled' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></span>
-    </button>
-    <?php
-}
 

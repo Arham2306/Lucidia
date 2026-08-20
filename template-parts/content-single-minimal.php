@@ -47,8 +47,6 @@ $toc_items     = $parsed_data['toc'];
                         <span><?php esc_html_e( 'Reader View', 'custom-theme' ); ?></span>
                     </button>
                 <?php endif; ?>
-
-                <?php custom_theme_bookmark_button( get_the_ID(), 'single-bookmark-btn' ); ?>
             </div>
         </div>
     </header>

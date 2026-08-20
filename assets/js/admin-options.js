@@ -45,6 +45,55 @@
                 $(this).remove();
             });
         });
+
+        // 4. Logo Media Uploader
+        let logoMediaFrame;
+        const uploadLogoBtn = $('#upload-logo-btn');
+        const removeLogoBtn = $('#remove-logo-btn');
+        const logoUrlInput = $('#custom_theme_logo_url');
+        const logoIdInput = $('#custom_theme_logo_id');
+        const logoPreviewBox = $('#logo-preview-box');
+        const logoPreviewImg = $('#logo-preview-img');
+
+        uploadLogoBtn.on('click', function (e) {
+            e.preventDefault();
+
+            if (logoMediaFrame) {
+                logoMediaFrame.open();
+                return;
+            }
+
+            logoMediaFrame = wp.media({
+                title: 'Select or Upload Site Logo',
+                button: { text: 'Use this Logo' },
+                multiple: false,
+                library: { type: 'image' }
+            });
+
+            logoMediaFrame.on('select', function () {
+                const attachment = logoMediaFrame.state().get('selection').first().toJSON();
+                
+                logoUrlInput.val(attachment.url);
+                logoIdInput.val(attachment.id);
+                
+                logoPreviewImg.attr('src', attachment.url);
+                logoPreviewBox.show();
+                removeLogoBtn.show();
+                uploadLogoBtn.find('.upload-btn-text').text('Change Logo');
+            });
+
+            logoMediaFrame.open();
+        });
+
+        removeLogoBtn.on('click', function (e) {
+            e.preventDefault();
+            logoUrlInput.val('');
+            logoIdInput.val('0');
+            logoPreviewBox.hide();
+            logoPreviewImg.attr('src', '');
+            removeLogoBtn.hide();
+            uploadLogoBtn.find('.upload-btn-text').text('Upload / Select Logo');
+        });
     });
 
 })(jQuery);

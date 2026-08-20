@@ -56,7 +56,8 @@ function custom_theme_admin_options_assets( $hook_suffix ) {
         return;
     }
 
-    // WordPress Core Color Picker
+    // WordPress Core Color Picker & Media Uploader
+    wp_enqueue_media();
     wp_enqueue_style( 'wp-color-picker' );
     wp_enqueue_script( 'wp-color-picker' );
 
@@ -124,7 +125,6 @@ function custom_theme_save_options() {
     set_theme_mod( 'custom_theme_single_show_toc', isset( $_POST['custom_theme_single_show_toc'] ) );
     set_theme_mod( 'custom_theme_toc_sticky', isset( $_POST['custom_theme_toc_sticky'] ) );
     set_theme_mod( 'custom_theme_enable_reading_mode', isset( $_POST['custom_theme_enable_reading_mode'] ) );
-    set_theme_mod( 'custom_theme_enable_bookmarks', isset( $_POST['custom_theme_enable_bookmarks'] ) );
     set_theme_mod( 'custom_theme_single_show_social_share', isset( $_POST['custom_theme_single_show_social_share'] ) );
     set_theme_mod( 'custom_theme_single_show_author_box', isset( $_POST['custom_theme_single_show_author_box'] ) );
     set_theme_mod( 'custom_theme_single_show_post_nav', isset( $_POST['custom_theme_single_show_post_nav'] ) );
@@ -166,6 +166,20 @@ function custom_theme_save_options() {
     }
 
     // 4. Branding & Logo
+    if ( isset( $_POST['custom_theme_logo_url'] ) ) {
+        $logo_url = esc_url_raw( wp_unslash( $_POST['custom_theme_logo_url'] ) );
+        set_theme_mod( 'custom_theme_logo_url', $logo_url );
+        
+        $logo_id = isset( $_POST['custom_theme_logo_id'] ) ? absint( $_POST['custom_theme_logo_id'] ) : 0;
+        set_theme_mod( 'custom_theme_logo_id', $logo_id );
+
+        // Sync with core WordPress custom_logo theme mod
+        if ( $logo_id > 0 ) {
+            set_theme_mod( 'custom_logo', $logo_id );
+        } elseif ( empty( $logo_url ) ) {
+            remove_theme_mod( 'custom_logo' );
+        }
+    }
     if ( isset( $_POST['custom_theme_logo_max_height'] ) ) {
         set_theme_mod( 'custom_theme_logo_max_height', absint( $_POST['custom_theme_logo_max_height'] ) );
     }
@@ -544,8 +558,41 @@ function custom_theme_render_options_page() {
                     <!-- TAB 3: Logo & Branding -->
                     <div class="tab-panel <?php echo ( 'branding' === $active_tab ) ? 'is-active' : ''; ?>" id="tab-branding">
                         <div class="panel-header">
-                            <h2><?php esc_html_e( 'Logo & Site Title Sizing', 'custom-theme' ); ?></h2>
-                            <p><?php esc_html_e( 'Fine-tune desktop and mobile logo dimensions and site title typography.', 'custom-theme' ); ?></p>
+                            <h2><?php esc_html_e( 'Logo & Branding', 'custom-theme' ); ?></h2>
+                            <p><?php esc_html_e( 'Upload your custom site logo and fine-tune desktop and mobile dimensions.', 'custom-theme' ); ?></p>
+                        </div>
+
+                        <div class="theme-field-row logo-uploader-row">
+                            <label class="field-label"><?php esc_html_e( 'Site Logo Image', 'custom-theme' ); ?></label>
+                            <div class="field-control">
+                                <?php
+                                $logo_url = get_theme_mod( 'custom_theme_logo_url', '' );
+                                $logo_id  = get_theme_mod( 'custom_theme_logo_id', 0 );
+                                if ( empty( $logo_url ) && has_custom_logo() ) {
+                                    $logo_id  = get_theme_mod( 'custom_logo' );
+                                    $logo_url = wp_get_attachment_image_url( $logo_id, 'full' );
+                                }
+                                ?>
+                                <div class="logo-uploader-wrap">
+                                    <div class="logo-preview-box" id="logo-preview-box" <?php echo empty( $logo_url ) ? 'style="display:none;"' : ''; ?>>
+                                        <img src="<?php echo esc_url( $logo_url ); ?>" id="logo-preview-img" alt="<?php esc_attr_e( 'Logo Preview', 'custom-theme' ); ?>" style="max-height: <?php echo esc_attr( get_theme_mod( 'custom_theme_logo_max_height', 48 ) ); ?>px;">
+                                    </div>
+                                    <input type="hidden" name="custom_theme_logo_url" id="custom_theme_logo_url" value="<?php echo esc_url( $logo_url ); ?>">
+                                    <input type="hidden" name="custom_theme_logo_id" id="custom_theme_logo_id" value="<?php echo esc_attr( $logo_id ); ?>">
+                                    
+                                    <div class="logo-uploader-actions">
+                                        <button type="button" class="button button-secondary" id="upload-logo-btn">
+                                            <span class="dashicons dashicons-upload"></span>
+                                            <span class="upload-btn-text"><?php echo empty( $logo_url ) ? esc_html__( 'Upload / Select Logo', 'custom-theme' ) : esc_html__( 'Change Logo', 'custom-theme' ); ?></span>
+                                        </button>
+                                        <button type="button" class="button button-link-delete" id="remove-logo-btn" <?php echo empty( $logo_url ) ? 'style="display:none;"' : ''; ?>>
+                                            <span class="dashicons dashicons-trash"></span>
+                                            <span><?php esc_html_e( 'Remove Logo', 'custom-theme' ); ?></span>
+                                        </button>
+                                    </div>
+                                </div>
+                                <p class="field-desc"><?php esc_html_e( 'Upload a PNG, SVG, JPG, or WebP logo image. When uploaded, this replaces the site title text in the header.', 'custom-theme' ); ?></p>
+                            </div>
                         </div>
 
                         <div class="theme-field-row">
@@ -877,17 +924,6 @@ function custom_theme_render_options_page() {
                                     <input type="checkbox" name="custom_theme_enable_reading_mode" value="1" <?php checked( get_theme_mod( 'custom_theme_enable_reading_mode', true ) ); ?>>
                                     <span class="switch-slider"></span>
                                     <span class="switch-label"><?php esc_html_e( 'Enable Reader View with custom themes (Light, Sepia, Dark) and typography controls', 'custom-theme' ); ?></span>
-                                </label>
-                            </div>
-                        </div>
-
-                        <div class="theme-field-row">
-                            <label class="field-label"><?php esc_html_e( 'Bookmarks & Reading List', 'custom-theme' ); ?></label>
-                            <div class="field-control">
-                                <label class="theme-switch">
-                                    <input type="checkbox" name="custom_theme_enable_bookmarks" value="1" <?php checked( get_theme_mod( 'custom_theme_enable_bookmarks', true ) ); ?>>
-                                    <span class="switch-slider"></span>
-                                    <span class="switch-label"><?php esc_html_e( 'Enable bookmark save buttons on cards and header slide-out reading list drawer', 'custom-theme' ); ?></span>
                                 </label>
                             </div>
                         </div>

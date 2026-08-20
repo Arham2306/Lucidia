@@ -436,3 +436,93 @@
         gap: 8px;
     }
 }
+
+/* Logo Uploader Component */
+.logo-uploader-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 6px;
+}
+
+.logo-preview-box {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16px 20px;
+    background: #f8fafc;
+    border: 2px dashed #cbd5e1;
+    border-radius: 8px;
+    max-width: 360px;
+    min-height: 64px;
+}
+
+.logo-preview-box img {
+    max-width: 100%;
+    height: auto;
+    object-fit: contain;
+    display: block;
+}
+
+.logo-uploader-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.logo-uploader-actions .button-secondary,
+.logo-uploader-actions .button-link-delete {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    height: 36px !important;
+    line-height: 34px !important;
+    box-sizing: border-box !important;
+    font-size: 13px !important;
+    font-weight: 600 !important;
+    border-radius: 4px !important;
+    margin: 0 !important;
+    cursor: pointer !important;
+    transition: all 0.2s ease !important;
+    vertical-align: middle !important;
+}
+
+.logo-uploader-actions .button-secondary {
+    gap: 6px !important;
+    padding: 0 16px !important;
+    background: #f6f7f7 !important;
+    color: #2271b1 !important;
+    border: 1px solid #2271b1 !important;
+}
+
+.logo-uploader-actions .button-secondary:hover {
+    background: #f0f0f1 !important;
+    color: #135e96 !important;
+    border-color: #135e96 !important;
+}
+
+.logo-uploader-actions .button-link-delete {
+    gap: 6px !important;
+    padding: 0 14px !important;
+    background: #ffffff !important;
+    color: #d63638 !important;
+    border: 1px solid #d63638 !important;
+    text-decoration: none !important;
+}
+
+.logo-uploader-actions .button-link-delete:hover {
+    background: #fcf0f1 !important;
+    color: #b32d2e !important;
+    border-color: #b32d2e !important;
+    text-decoration: none !important;
+}
+
+.logo-uploader-actions .dashicons {
+    font-size: 16px !important;
+    width: 16px !important;
+    height: 16px !important;
+    line-height: 16px !important;
+    margin: 0 !important;
+    display: inline-block !important;
+}
+
