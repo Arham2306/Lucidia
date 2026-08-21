@@ -34,6 +34,7 @@ if ( ! function_exists( 'custom_theme_setup' ) ) :
         add_image_size( 'custom-theme-featured', 1200, 675, true ); // 16:9 Hero
         add_image_size( 'custom-theme-card', 700, 465, true );      // 3:2 Grid Card
         add_image_size( 'custom-theme-compact', 320, 215, true );   // Magazine Secondary
+        add_image_size( 'custom-theme-thumbnail', 160, 120, true );  // Sidebar & search thumbnails
         add_image_size( 'custom-theme-avatar', 96, 96, true );      // Author Avatar
 
         // Register navigation menus.
@@ -111,11 +112,19 @@ add_action( 'after_setup_theme', 'custom_theme_content_width', 0 );
  * Enqueue scripts and styles.
  */
 function custom_theme_scripts() {
+    // Base WordPress theme stylesheet (core alignment, captions, accessibility, print).
+    wp_enqueue_style(
+        'custom-theme-style',
+        get_stylesheet_uri(),
+        array(),
+        CUSTOM_THEME_VERSION
+    );
+
     // Main Theme CSS (includes self-hosted @font-face for Inter & Lora)
     wp_enqueue_style(
         'custom-theme-main',
         CUSTOM_THEME_URI . '/assets/css/main.css',
-        array(),
+        array( 'custom-theme-style' ),
         CUSTOM_THEME_VERSION
     );
 
@@ -184,6 +193,7 @@ add_filter( 'excerpt_more', 'custom_theme_excerpt_more' );
 require_once CUSTOM_THEME_DIR . '/inc/helpers.php';
 require_once CUSTOM_THEME_DIR . '/inc/template-tags.php';
 require_once CUSTOM_THEME_DIR . '/inc/template-functions.php';
+require_once CUSTOM_THEME_DIR . '/inc/thumbnail-regenerator.php';
 
 // Conditionally load widgets, customizer, and admin options if present
 if ( file_exists( CUSTOM_THEME_DIR . '/inc/widgets.php' ) ) {

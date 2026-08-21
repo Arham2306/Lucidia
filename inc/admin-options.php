@@ -76,6 +76,24 @@ function custom_theme_admin_options_assets( $hook_suffix ) {
         CUSTOM_THEME_VERSION,
         true
     );
+
+    wp_localize_script(
+        'custom-theme-admin-options',
+        'customThemeAdminData',
+        array(
+            'ajaxUrl' => admin_url( 'admin-ajax.php' ),
+            'nonce'   => wp_create_nonce( 'custom_theme_regenerate_nonce' ),
+            'strings' => array(
+                'confirmRegenerate' => esc_html__( 'Are you sure you want to regenerate thumbnails for all media attachments? This will generate all 5 theme image sizes.', 'custom-theme' ),
+                'processing'        => esc_html__( 'Processing...', 'custom-theme' ),
+                'finished'          => esc_html__( 'All thumbnails regenerated successfully!', 'custom-theme' ),
+                'stopping'          => esc_html__( 'Stopping...', 'custom-theme' ),
+                'stopped'           => esc_html__( 'Regeneration paused.', 'custom-theme' ),
+                'noImages'          => esc_html__( 'No image attachments found in the Media Library.', 'custom-theme' ),
+                'error'             => esc_html__( 'An error occurred during regeneration.', 'custom-theme' ),
+            ),
+        )
+    );
 }
 add_action( 'admin_enqueue_scripts', 'custom_theme_admin_options_assets' );
 
@@ -399,6 +417,10 @@ function custom_theme_render_options_page() {
                     <button type="button" class="tab-nav-btn <?php echo ( 'footer' === $active_tab ) ? 'is-active' : ''; ?>" data-tab="footer">
                         <span class="dashicons dashicons-tagcloud"></span>
                         <span><?php esc_html_e( 'Footer & Sticky Scroll', 'custom-theme' ); ?></span>
+                    </button>
+                    <button type="button" class="tab-nav-btn <?php echo ( 'tools' === $active_tab ) ? 'is-active' : ''; ?>" data-tab="tools">
+                        <span class="dashicons dashicons-admin-tools"></span>
+                        <span><?php esc_html_e( 'System & Tools', 'custom-theme' ); ?></span>
                     </button>
                 </nav>
 
@@ -1185,6 +1207,97 @@ function custom_theme_render_options_page() {
                                     <option value="medium" <?php selected( $ss, 'medium' ); ?>><?php esc_html_e( 'Elevated Medium Shadow', 'custom-theme' ); ?></option>
                                     <option value="none" <?php selected( $ss, 'none' ); ?>><?php esc_html_e( 'No Shadow (Flat Border Only)', 'custom-theme' ); ?></option>
                                 </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- TAB 10: System & Tools -->
+                    <div class="tab-panel <?php echo ( 'tools' === $active_tab ) ? 'is-active' : ''; ?>" id="tab-tools">
+                        <div class="panel-header">
+                            <h2><?php esc_html_e( 'System Tools & Media Maintenance', 'custom-theme' ); ?></h2>
+                            <p><?php esc_html_e( 'Manage media assets, thumbnail crops, and performance utilities for your theme.', 'custom-theme' ); ?></p>
+                        </div>
+
+                        <?php
+                        $media_counts = wp_count_attachments( 'image' );
+                        $total_images = is_object( $media_counts ) ? array_sum( (array) $media_counts ) : 0;
+                        if ( $total_images === 0 ) {
+                            global $wpdb;
+                            $total_images = (int) $wpdb->get_var( "SELECT COUNT(ID) FROM {$wpdb->posts} WHERE post_type = 'attachment' AND post_mime_type LIKE 'image/%' AND post_status != 'trash'" );
+                        }
+                        ?>
+
+                        <div class="tools-card-box">
+                            <div class="tools-card-header">
+                                <div class="tools-card-icon">
+                                    <span class="dashicons dashicons-images-alt2"></span>
+                                </div>
+                                <div class="tools-card-title-group">
+                                    <h3><?php esc_html_e( 'Media Library Thumbnail Regenerator', 'custom-theme' ); ?></h3>
+                                    <p><?php esc_html_e( 'Bulk process and generate all registered image dimensions for existing media attachments.', 'custom-theme' ); ?></p>
+                                </div>
+                            </div>
+
+                            <div class="tools-card-body">
+                                <div class="tools-feature-badges">
+                                    <span class="tools-badge tools-badge-active">
+                                        <span class="dashicons dashicons-yes"></span>
+                                        <strong><?php esc_html_e( 'JIT On-Demand Engine:', 'custom-theme' ); ?></strong> <?php esc_html_e( 'Active (Missing sizes generate automatically on first page view)', 'custom-theme' ); ?>
+                                    </span>
+                                </div>
+
+                                <p class="tools-desc-text">
+                                    <?php esc_html_e( 'This tool will iterate through your media library and generate all 5 custom theme thumbnail crops for full frontend compatibility:', 'custom-theme' ); ?>
+                                </p>
+
+                                <ul class="theme-sizes-list">
+                                    <li><code>custom-theme-featured</code> &mdash; <strong>1200 &times; 675 px</strong> (16:9 Hero Spotlight)</li>
+                                    <li><code>custom-theme-card</code> &mdash; <strong>700 &times; 465 px</strong> (3:2 Grid Cards)</li>
+                                    <li><code>custom-theme-compact</code> &mdash; <strong>320 &times; 215 px</strong> (Magazine Secondary Cards)</li>
+                                    <li><code>custom-theme-thumbnail</code> &mdash; <strong>160 &times; 120 px</strong> (Sidebar &amp; Live Search Thumbnails)</li>
+                                    <li><code>custom-theme-avatar</code> &mdash; <strong>96 &times; 96 px</strong> (Author Avatars)</li>
+                                </ul>
+
+                                <div class="tools-stats-bar">
+                                    <span class="dashicons dashicons-media-default"></span>
+                                    <span><?php echo sprintf( esc_html__( 'Total Images in Media Library: %s', 'custom-theme' ), '<strong>' . number_format_i18n( $total_images ) . '</strong>' ); ?></span>
+                                </div>
+
+                                <!-- Action Buttons -->
+                                <div class="tools-action-buttons">
+                                    <button type="button" class="button button-primary button-large" id="btn-start-regenerate-thumbs" <?php disabled( $total_images === 0 ); ?>>
+                                        <span class="dashicons dashicons-update"></span>
+                                        <span class="btn-text"><?php esc_html_e( 'Regenerate All Thumbnails', 'custom-theme' ); ?></span>
+                                    </button>
+                                    <button type="button" class="button button-secondary button-large" id="btn-pause-regenerate-thumbs" style="display:none;">
+                                        <span class="dashicons dashicons-controls-pause"></span>
+                                        <span><?php esc_html_e( 'Pause', 'custom-theme' ); ?></span>
+                                    </button>
+                                </div>
+
+                                <!-- Progress UI (Initially Hidden) -->
+                                <div id="regenerate-progress-box" class="regenerate-progress-box" style="display:none;">
+                                    <div class="progress-info-row">
+                                        <span class="progress-status-title" id="regenerate-status-title"><?php esc_html_e( 'Processing thumbnails...', 'custom-theme' ); ?></span>
+                                        <span class="progress-stats-counter" id="regenerate-stats-text">0 / 0 (0%)</span>
+                                    </div>
+
+                                    <div class="progress-track">
+                                        <div class="progress-fill" id="regenerate-bar-fill" style="width: 0%;"></div>
+                                    </div>
+
+                                    <p class="progress-current-item" id="regenerate-current-item"><?php esc_html_e( 'Initializing batch...', 'custom-theme' ); ?></p>
+
+                                    <!-- Live Activity Log -->
+                                    <div class="regenerate-log-container">
+                                        <div class="regenerate-log-header">
+                                            <span><?php esc_html_e( 'Activity Log', 'custom-theme' ); ?></span>
+                                            <button type="button" class="button-link" id="btn-clear-regenerate-log"><?php esc_html_e( 'Clear', 'custom-theme' ); ?></button>
+                                        </div>
+                                        <ul class="regenerate-log-list" id="regenerate-log-list"></ul>
+                                    </div>
+                                </div>
+
                             </div>
                         </div>
                     </div>

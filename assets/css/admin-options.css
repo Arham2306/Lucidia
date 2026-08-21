@@ -526,3 +526,349 @@
     display: inline-block !important;
 }
 
+/* ==========================================================================
+   System Tools & Thumbnail Regenerator
+   ========================================================================== */
+
+.tools-card-box {
+    background: #ffffff;
+    border: 1px solid #dcdcde;
+    border-radius: 8px;
+    padding: 24px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+    margin-top: 10px;
+}
+
+.tools-card-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    margin-bottom: 20px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid #f0f0f1;
+}
+
+.tools-card-icon {
+    width: 48px;
+    height: 48px;
+    background: #eef4fb;
+    color: #184a7e;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.tools-card-icon .dashicons {
+    font-size: 26px;
+    width: 26px;
+    height: 26px;
+    line-height: 26px;
+}
+
+.tools-card-title-group h3 {
+    margin: 0 0 4px 0;
+    font-size: 16px;
+    font-weight: 700;
+    color: #1d2327;
+}
+
+.tools-card-title-group p {
+    margin: 0;
+    font-size: 13px;
+    color: #646970;
+}
+
+.tools-feature-badges {
+    margin-bottom: 16px;
+}
+
+.tools-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.tools-badge-active {
+    background: #edf7ed;
+    color: #1e4620;
+    border: 1px solid #c8e6c9;
+}
+
+.tools-badge-active .dashicons {
+    color: #2e7d32;
+    font-size: 16px;
+    width: 16px;
+    height: 16px;
+    line-height: 16px;
+}
+
+.tools-desc-text {
+    font-size: 13px;
+    color: #50575e;
+    margin-bottom: 12px;
+    line-height: 1.5;
+}
+
+.theme-sizes-list {
+    margin: 0 0 20px 0;
+    padding: 12px 16px;
+    background: #f6f7f7;
+    border-radius: 6px;
+    border: 1px solid #dcdcde;
+    list-style: none;
+}
+
+.theme-sizes-list li {
+    margin-bottom: 6px;
+    font-size: 13px;
+    color: #2c3338;
+}
+
+.theme-sizes-list li:last-child {
+    margin-bottom: 0;
+}
+
+.theme-sizes-list code {
+    font-weight: 600;
+    background: #ffffff;
+    padding: 2px 6px;
+    border-radius: 4px;
+    border: 1px solid #c3c4c7;
+    color: #184a7e;
+}
+
+.tools-stats-bar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 14px;
+    background: #f0f6fc;
+    border-left: 4px solid #184a7e;
+    border-radius: 0 6px 6px 0;
+    margin-bottom: 20px;
+    font-size: 13px;
+    color: #1d2327;
+}
+
+.tools-action-buttons {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.tools-action-buttons .button {
+    height: 40px !important;
+    min-height: 40px !important;
+    line-height: 38px !important;
+    padding: 0 20px !important;
+    font-size: 13.5px !important;
+    font-weight: 600 !important;
+    border-radius: 6px !important;
+    display: inline-flex;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 8px !important;
+    cursor: pointer !important;
+    box-sizing: border-box !important;
+    transition: all 0.2s ease !important;
+    text-decoration: none !important;
+    vertical-align: middle !important;
+}
+
+.tools-action-buttons .button[style*="display:none"],
+.tools-action-buttons .button[style*="display: none"],
+.tools-action-buttons .button.is-hidden {
+    display: none !important;
+}
+
+.tools-action-buttons .button .dashicons {
+    font-size: 18px !important;
+    width: 18px !important;
+    height: 18px !important;
+    line-height: 18px !important;
+    margin: 0 !important;
+    display: inline-block !important;
+    vertical-align: middle !important;
+}
+
+.tools-action-buttons .button-primary {
+    background: #184a7e !important;
+    border: 1px solid #184a7e !important;
+    color: #ffffff !important;
+    box-shadow: 0 1px 2px rgba(24, 74, 126, 0.2) !important;
+}
+
+.tools-action-buttons .button-primary:hover:not(:disabled) {
+    background: #11365d !important;
+    border-color: #11365d !important;
+    color: #ffffff !important;
+    box-shadow: 0 2px 5px rgba(24, 74, 126, 0.3) !important;
+}
+
+.tools-action-buttons .button-primary:disabled {
+    background: #e2e8f0 !important;
+    border-color: #cbd5e1 !important;
+    color: #94a3b8 !important;
+    cursor: not-allowed !important;
+    opacity: 0.8 !important;
+    box-shadow: none !important;
+}
+
+.tools-action-buttons .button-secondary {
+    background: #ffffff !important;
+    border: 1px solid #c3c4c7 !important;
+    color: #184a7e !important;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04) !important;
+}
+
+.tools-action-buttons .button-secondary:hover:not(:disabled) {
+    background: #f0f6fc !important;
+    border-color: #184a7e !important;
+    color: #11365d !important;
+}
+
+.tools-action-buttons .button-secondary .dashicons {
+    color: #184a7e !important;
+}
+
+/* Regenerator Progress Box */
+.regenerate-progress-box {
+    margin-top: 24px;
+    padding: 18px;
+    background: #fafafa;
+    border: 1px solid #dcdcde;
+    border-radius: 8px;
+}
+
+.progress-info-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+    font-size: 13px;
+}
+
+.progress-status-title {
+    font-weight: 600;
+    color: #1d2327;
+}
+
+.progress-stats-counter {
+    font-weight: 700;
+    color: #184a7e;
+}
+
+.progress-track {
+    width: 100%;
+    height: 14px;
+    background: #e2e4e7;
+    border-radius: 7px;
+    overflow: hidden;
+    margin-bottom: 10px;
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #184a7e 0%, #2271b1 100%);
+    border-radius: 7px;
+    transition: width 0.25s ease;
+}
+
+.progress-fill.is-complete {
+    background: linear-gradient(90deg, #1b7340 0%, #2e7d32 100%);
+}
+
+.progress-current-item {
+    font-size: 12px;
+    color: #646970;
+    margin: 0 0 14px 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Activity Log Container */
+.regenerate-log-container {
+    background: #ffffff;
+    border: 1px solid #dcdcde;
+    border-radius: 6px;
+    overflow: hidden;
+}
+
+.regenerate-log-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 12px;
+    background: #f6f7f7;
+    border-bottom: 1px solid #dcdcde;
+    font-size: 12px;
+    font-weight: 600;
+    color: #50575e;
+}
+
+.regenerate-log-list {
+    margin: 0;
+    padding: 8px 12px;
+    list-style: none;
+    max-height: 200px;
+    overflow-y: auto;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    font-size: 11.5px;
+    line-height: 1.6;
+}
+
+.log-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 4px;
+    padding: 2px 0;
+}
+
+.log-item:last-child {
+    margin-bottom: 0;
+}
+
+.log-item .dashicons {
+    font-size: 14px;
+    width: 14px;
+    height: 14px;
+    line-height: 14px;
+    flex-shrink: 0;
+}
+
+.log-time {
+    color: #8c8f94;
+    flex-shrink: 0;
+}
+
+.log-msg {
+    color: #2c3338;
+}
+
+.log-success .dashicons {
+    color: #2e7d32;
+}
+
+.log-error {
+    color: #d63638;
+}
+
+.log-error .dashicons {
+    color: #d63638;
+}
+
+.log-info .dashicons {
+    color: #2271b1;
+}
+
+

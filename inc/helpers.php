@@ -142,7 +142,7 @@ function custom_theme_parse_toc( $content ) {
         );
     }
 
-    $cache_key = 'custom_theme_toc_' . get_the_ID();
+    $cache_key = 'custom_theme_toc_v2_' . get_the_ID();
     $cache = get_transient($cache_key);
     if ($cache !== false && $cache['modified'] === get_the_modified_date('U')) {
         return $cache['data'];
@@ -150,24 +150,41 @@ function custom_theme_parse_toc( $content ) {
 
     // Match all h2 and h3 headings
     $pattern = '/<h([2-3])([^>]*)>(.*?)<\/h\1>/i';
+    $used_ids = array();
 
     $modified_content = preg_replace_callback(
         $pattern,
-        function( $matches ) use ( &$toc ) {
+        function( $matches ) use ( &$toc, &$used_ids ) {
             $level = (int) $matches[1];
             $attrs = $matches[2];
             $title = $matches[3];
 
             $clean_title = wp_strip_all_tags( $title );
-            
+
             // Check if id attribute already exists
+            $has_existing_id = false;
             if ( preg_match( '/id=["\']([^"\']+)["\']/i', $attrs, $id_match ) ) {
-                $slug = sanitize_title( $id_match[1] );
+                $has_existing_id = true;
+                $base_slug = trim( $id_match[1] );
             } else {
-                $slug = sanitize_title( $clean_title );
-                if ( empty( $slug ) ) {
-                    $slug = 'heading-' . ( count( $toc ) + 1 );
-                }
+                $base_slug = sanitize_title( $clean_title );
+            }
+
+            if ( empty( $base_slug ) ) {
+                $base_slug = 'heading-' . ( count( $toc ) + 1 );
+            }
+
+            $slug = $base_slug;
+            $suffix = 2;
+            while ( isset( $used_ids[ $slug ] ) ) {
+                $slug = $base_slug . '-' . $suffix;
+                $suffix++;
+            }
+            $used_ids[ $slug ] = true;
+
+            if ( $has_existing_id ) {
+                $attrs = preg_replace( '/\s+id=["\'][^"\']*["\']/i', ' id="' . esc_attr( $slug ) . '"', $attrs, 1 );
+            } else {
                 $attrs .= ' id="' . esc_attr( $slug ) . '"';
             }
 
@@ -197,6 +214,7 @@ function custom_theme_parse_toc( $content ) {
  */
 function custom_theme_clear_toc_transient( $post_id ) {
     delete_transient( 'custom_theme_toc_' . $post_id );
+    delete_transient( 'custom_theme_toc_v2_' . $post_id );
 }
 add_action( 'save_post', 'custom_theme_clear_toc_transient' );
 

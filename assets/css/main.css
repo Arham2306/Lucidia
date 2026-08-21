@@ -100,15 +100,26 @@
     --lh-loose: 1.8;
 
     /* Spacing Scale (4px/8px baseline) */
-    --space-3xs: 0.25rem;   /* 4px */
-    --space-2xs: 0.5rem;    /* 8px */
-    --space-xs: 0.75rem;    /* 12px */
-    --space-sm: 1rem;       /* 16px */
-    --space-md: 1.5rem;     /* 24px */
-    --space-lg: 2rem;       /* 32px */
-    --space-xl: 3rem;       /* 48px */
-    --space-2xl: 4.5rem;    /* 72px */
-    --space-3xl: 6rem;      /* 96px */
+    --space-3xs: 0.25rem;
+    /* 4px */
+    --space-2xs: 0.5rem;
+    /* 8px */
+    --space-xs: 0.75rem;
+    /* 12px */
+    --space-sm: 1rem;
+    /* 16px */
+    --space-md: 1.5rem;
+    /* 24px */
+    --space-lg: 2rem;
+    /* 32px */
+    --space-xl: 3rem;
+    /* 48px */
+    --space-2xl: 4.5rem;
+    /* 72px */
+    --space-3xl: 6rem;
+    /* 96px */
+    --space-4xl: 8rem;
+    /* 128px */
 
     /* Shadows & Depth */
     --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.02);
@@ -379,11 +390,76 @@
     display: block;
 }
 
-/* Smooth transition for color scheme change */
+/* Smooth transition for color scheme change — targeted elements only.
+   Using explicit selectors instead of the universal (*) selector to avoid
+   triggering a full-tree style recalculation on every DOM node. Only elements
+   whose background, color, or border visibly change between themes are listed. */
 html.theme-transitioning,
-html.theme-transitioning *,
-html.theme-transitioning *::before,
-html.theme-transitioning *::after {
+html.theme-transitioning body,
+html.theme-transitioning .site-header,
+html.theme-transitioning .top-bar,
+html.theme-transitioning .site-content-container,
+html.theme-transitioning .site-footer,
+html.theme-transitioning .footer-section,
+html.theme-transitioning .article-card,
+html.theme-transitioning .article-card-classic,
+html.theme-transitioning .article-card-compact,
+html.theme-transitioning .article-card-list,
+html.theme-transitioning .card-content,
+html.theme-transitioning .card-classic-content,
+html.theme-transitioning .card-footer,
+html.theme-transitioning .card-classic-footer,
+html.theme-transitioning .card-list-footer,
+html.theme-transitioning .widget-area,
+html.theme-transitioning .widget,
+html.theme-transitioning .editorial-widget,
+html.theme-transitioning .sidebar-widget,
+html.theme-transitioning .article-toc-box,
+html.theme-transitioning .search-modal,
+html.theme-transitioning .search-modal-backdrop,
+html.theme-transitioning .search-modal-box,
+html.theme-transitioning .search-result-item,
+html.theme-transitioning .search-field,
+html.theme-transitioning .mobile-drawer,
+html.theme-transitioning .reading-mode-bar,
+html.theme-transitioning .reading-progress,
+html.theme-transitioning .section-header,
+html.theme-transitioning .newsletter-callout,
+html.theme-transitioning .newsletter-section,
+html.theme-transitioning .author-box,
+html.theme-transitioning .post-nav-card,
+html.theme-transitioning .comment-body,
+html.theme-transitioning .related-posts-section,
+html.theme-transitioning .footer-grid,
+html.theme-transitioning .bottom-bar,
+html.theme-transitioning .thumbnail-placeholder,
+html.theme-transitioning input,
+html.theme-transitioning textarea,
+html.theme-transitioning select,
+html.theme-transitioning button,
+html.theme-transitioning a,
+html.theme-transitioning h1,
+html.theme-transitioning h2,
+html.theme-transitioning h3,
+html.theme-transitioning h4,
+html.theme-transitioning h5,
+html.theme-transitioning h6,
+html.theme-transitioning p,
+html.theme-transitioning .entry-content,
+html.theme-transitioning .card-title,
+html.theme-transitioning .card-classic-title,
+html.theme-transitioning .card-compact-title,
+html.theme-transitioning .card-list-title,
+html.theme-transitioning .meta-item,
+html.theme-transitioning .meta-divider,
+html.theme-transitioning .category-badge,
+html.theme-transitioning .tag-cloud-link,
+html.theme-transitioning .tags-pills a,
+html.theme-transitioning .share-btn,
+html.theme-transitioning .dark-mode-toggle,
+html.theme-transitioning .btn-reading-mode-toggle,
+html.theme-transitioning .back-to-top-btn,
+html.theme-transitioning .breadcrumb-nav {
     transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease !important;
 }
 
@@ -542,12 +618,22 @@ h6 {
 }
 
 /* Title link hover states */
-h1 a, h2 a, h3 a, h4 a, h5 a, h6 a {
+h1 a,
+h2 a,
+h3 a,
+h4 a,
+h5 a,
+h6 a {
     color: var(--color-text-main);
     transition: color var(--transition-fast);
 }
 
-h1 a:hover, h2 a:hover, h3 a:hover, h4 a:hover, h5 a:hover, h6 a:hover {
+h1 a:hover,
+h2 a:hover,
+h3 a:hover,
+h4 a:hover,
+h5 a:hover,
+h6 a:hover {
     color: var(--color-accent) !important;
 }
 
@@ -1389,11 +1475,11 @@ input[type="search"]::-ms-reveal {
     stroke: #ffffff !important;
 }
 
-.search-form .search-field:focus ~ .search-submit {
+.search-form .search-field:focus~.search-submit {
     color: var(--color-accent);
 }
 
-.search-form .search-field:focus ~ .search-submit:hover {
+.search-form .search-field:focus~.search-submit:hover {
     color: #ffffff;
     background-color: var(--color-accent) !important;
 }
@@ -1528,6 +1614,7 @@ input[type="search"]::-ms-reveal {
         text-align: center;
         gap: 0.25rem;
     }
+
     .topbar-date,
     .topbar-social {
         display: none;
@@ -1746,7 +1833,7 @@ input[type="search"]::-ms-reveal {
 }
 
 .primary-nav-list .menu-item a:hover,
-.primary-nav-list .current-menu-item > a {
+.primary-nav-list .current-menu-item>a {
     color: var(--nav-custom-hover-color, var(--color-accent));
 }
 
@@ -1780,8 +1867,8 @@ input[type="search"]::-ms-reveal {
     transition: width var(--transition-fast);
 }
 
-.nav-indicator-underline .primary-nav-list .menu-item:hover > a::after,
-.nav-indicator-underline .primary-nav-list .current-menu-item > a::after {
+.nav-indicator-underline .primary-nav-list .menu-item:hover>a::after,
+.nav-indicator-underline .primary-nav-list .current-menu-item>a::after {
     width: 100%;
 }
 
@@ -1790,8 +1877,8 @@ input[type="search"]::-ms-reveal {
     border-radius: var(--radius-full);
 }
 
-.nav-indicator-pill .primary-nav-list .menu-item:hover > a,
-.nav-indicator-pill .primary-nav-list .current-menu-item > a {
+.nav-indicator-pill .primary-nav-list .menu-item:hover>a,
+.nav-indicator-pill .primary-nav-list .current-menu-item>a {
     background-color: var(--color-surface-subtle);
     color: var(--color-accent);
 }
@@ -1809,8 +1896,8 @@ input[type="search"]::-ms-reveal {
     transition: transform var(--transition-fast);
 }
 
-.nav-indicator-dot .primary-nav-list .menu-item:hover > a::after,
-.nav-indicator-dot .primary-nav-list .current-menu-item > a::after {
+.nav-indicator-dot .primary-nav-list .menu-item:hover>a::after,
+.nav-indicator-dot .primary-nav-list .current-menu-item>a::after {
     transform: translateX(-50%) scale(1);
 }
 
@@ -1832,8 +1919,8 @@ input[type="search"]::-ms-reveal {
     z-index: 100;
 }
 
-.primary-nav-list .menu-item:hover > .sub-menu,
-.primary-nav-list .menu-item:focus-within > .sub-menu {
+.primary-nav-list .menu-item:hover>.sub-menu,
+.primary-nav-list .menu-item:focus-within>.sub-menu {
     opacity: 1;
     visibility: visible;
     transform: translateY(0);
@@ -2952,8 +3039,13 @@ body.drawer-open {
 }
 
 @keyframes customThemeSpin {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
 }
 
 .no-more-posts-msg {
@@ -2979,6 +3071,7 @@ body.drawer-open {
         opacity: 0;
         transform: translateY(18px);
     }
+
     to {
         opacity: 1;
         transform: translateY(0);
@@ -3990,7 +4083,6 @@ body.drawer-open {
     border: 1px solid var(--color-border);
     display: inline-block;
     margin-right: 0.35rem;
-    margin-bottom: 0.35rem;
 }
 
 .tags-pills a:hover {
@@ -4496,21 +4588,11 @@ body.drawer-open {
     color: var(--color-text-muted);
 }
 
-
-
-
-
-
-/**
- * Custom Editorial - Responsive Breakpoint Stylesheet
- * Responsive layout adjustments for tablet and mobile viewports.
- *
- * @package Custom_Theme
- */
-
 /* ==========================================================================
-   1. Large Tablet / Laptop (max-width: 1024px)
+   33. Responsive Breakpoints
    ========================================================================== */
+
+/* 1. Large Tablet / Laptop (max-width: 1024px) */
 
 @media screen and (max-width: 1024px) {
     :root {
@@ -4837,7 +4919,7 @@ body.reading-mode-active {
 }
 
 body.reading-mode-active #masthead,
-body.reading-mode-active #topbar,
+body.reading-mode-active #site-topbar,
 body.reading-mode-active #colophon,
 body.reading-mode-active .sidebar-area,
 body.reading-mode-active .site-breadcrumbs,
@@ -4846,7 +4928,7 @@ body.reading-mode-active .related-posts-section,
 body.reading-mode-active .comments-area,
 body.reading-mode-active .single-article-footer,
 body.reading-mode-active .back-to-top-btn,
-body.reading-mode-active .reading-progress-bar-container {
+body.reading-mode-active #reading-progress-bar {
     display: none !important;
 }
 
@@ -4891,7 +4973,6 @@ body.reading-mode-active .single-post-main,
 body.reading-mode-active .single-article,
 body.reading-mode-active .single-article-magazine,
 body.reading-mode-active .single-article-minimal {
-    background-color: transparent !important;
     background: transparent !important;
 }
 
@@ -5117,6 +5198,7 @@ body.reading-mode-active[data-reader-theme="dark"] .entry-content pre {
         opacity: 0;
         transform: translate3d(-50%, 28px, 0) scale(0.95);
     }
+
     100% {
         opacity: 1;
         transform: translate3d(-50%, 0, 0) scale(1);
@@ -5343,7 +5425,122 @@ body.reading-mode-active[data-reader-theme="dark"] .entry-content pre {
     flex-shrink: 0;
 }
 
+/* ==========================================================================
+   Reduced Motion Accessibility
+   Disables or simplifies animations and transitions for users who prefer
+   reduced motion (vestibular disorders, motion sensitivity, etc.).
+   Spinners are preserved (slowed) as essential loading feedback.
+   ========================================================================== */
 
+@media (prefers-reduced-motion: reduce) {
 
+    /* 1. Kill all general transitions and animations globally */
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
 
+    /* 2. Preserve loading spinners as essential feedback (but slow them) */
+    .search-loading-icon,
+    .ajax-spinner {
+        animation-duration: 1.5s !important;
+        animation-iteration-count: infinite !important;
+    }
 
+    /* 3. Disable hover lift/scale transforms on interactive elements */
+    .article-card:hover,
+    .article-card-classic:hover,
+    .article-card-compact:hover,
+    .article-card-list:hover,
+    .share-btn:hover,
+    .back-to-top-btn:hover,
+    .btn-reading-mode-toggle:hover,
+    .reader-exit-btn:hover,
+    .category-badge:hover,
+    .editorial-pagination .page-numbers:hover,
+    .section-header-link:hover .link-arrow,
+    .post-nav-card:hover {
+        transform: none !important;
+    }
+
+    /* 4. Disable image zoom on hover */
+    .article-card:hover .card-media img,
+    .article-card-classic:hover .card-classic-media img,
+    .article-card-compact:hover .card-compact-media img,
+    .article-card-list:hover .card-list-media img,
+    .featured-card:hover .featured-media img {
+        transform: none !important;
+    }
+
+    /* 5. Disable AJAX-loaded card entrance animation */
+    .article-card.fade-in-up,
+    .article-card-classic.fade-in-up,
+    .article-card-list.fade-in-up {
+        opacity: 1 !important;
+        transform: none !important;
+        animation: none !important;
+    }
+
+    /* 6. Make reader bar appear instantly (no slide-up) */
+    .reading-mode-bar {
+        animation: none !important;
+        opacity: 1 !important;
+        transform: translateX(-50%) !important;
+    }
+
+    /* 7. Disable dark mode transition smoothing */
+    html.theme-transitioning,
+    html.theme-transitioning * {
+        transition: none !important;
+    }
+
+    /* 8. Disable sticky header hide/reveal animation */
+    .site-header {
+        transition: none !important;
+    }
+
+    .site-header.header-hidden {
+        transform: translateY(-100%) !important;
+        transition: none !important;
+    }
+
+    /* 9. Disable mobile drawer slide animation */
+    .mobile-drawer {
+        transition: none !important;
+    }
+
+    /* 10. Disable search modal entrance animation */
+    .search-modal,
+    .search-modal-box {
+        transition: none !important;
+    }
+
+    .search-modal-backdrop {
+        transition: none !important;
+    }
+
+    /* 11. Disable dropdown menu transitions */
+    .desktop-nav .sub-menu {
+        transition: none !important;
+    }
+
+    /* 12. Disable copy tooltip animation */
+    .copy-tooltip {
+        transition: none !important;
+        animation: none !important;
+    }
+
+    /* 13. Disable reading progress bar animation */
+    #reading-progress-bar {
+        transition: none !important;
+    }
+
+    /* 14. Disable smooth scroll behavior */
+    html {
+        scroll-behavior: auto !important;
+    }
+}
